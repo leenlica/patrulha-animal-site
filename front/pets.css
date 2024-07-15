@@ -1,0 +1,65 @@
+.section-pets{
+    margin-top: 140px;
+    padding-left: 60px;
+}
+
+#titulo{
+    font-size: 25px;
+    font-style: oblique;
+}
+ 
+
+#pets-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-content: left;
+ }
+
+ .card{
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 3px 3px 3px 3px #00000040;
+    border-radius: 8px;
+    width: 302px;
+    text-align: center;
+    box-sizing: border-box;
+
+ }
+
+ .card img{
+    width: 300px;
+    height: 310px;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: 0px 1px;
+
+ }
+ .card h3{
+    margin-top: 8px;
+ }
+
+ .card p{
+    margin-top: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: justify;
+    flex: 1;
+ }
+
+
+ .botao {
+     padding: 8px 16px;
+     background-color: #da5700;
+     color: white;
+     text-align: center;
+     font-size: 16px;
+     cursor: pointer;
+     border: none;
+     border-radius: 8px;
+     transition: background-color 0.3s;
+ }
+
+ .botao:hover {
+     background-color: #eea048;
+ }

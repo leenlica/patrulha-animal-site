@@ -1,0 +1,57 @@
+/*Em andamento... Não adicionado ao site*/
+.buscar {
+    width: 100%;
+    background: lightblue;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+input {
+    width: 50%;
+    height: 50px;
+    padding-left: 20px;
+    font-size: 22px;
+    border: 1px solide #ddd;
+    margin: 15px;
+    border-radius: 5px;
+
+
+}
+
+#listaanimais {
+    display: block;
+    justify-content: left;
+    width: 50%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 70px;
+}
+
+#listaanimais li a {
+    display: flex;
+    align-items: left;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    border: 1px solid #ddd;
+    background: #f6f6f6;
+    padding: 12px;
+}
+
+
+#listaanimais li a:hover {
+    background-color: #eee;
+}
+
+.animal-name {
+    margin-left: 15px;
+}
+
+h1 {
+    margin-left: 5%;
+}

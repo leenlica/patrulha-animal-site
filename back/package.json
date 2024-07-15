@@ -1,0 +1,22 @@
+{
+  "name": "patrulha-animal-site",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-async-error": "^0.0.2",
+    "express-async-errors": "^3.1.1",
+    "morgan": "^1.10.0",
+    "uuid": "^10.0.0"
+  }
+}
