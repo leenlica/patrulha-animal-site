@@ -17,9 +17,9 @@ router.get('/pets', (req, res) => {
 });
 
 // Rota para obter um pet específico por ID 
-router.get('/pets/:id', (req, res) => {
+router.get('/pets/:id', async (req, res) => {
     const { id } = req.params.id;
-    const pet = pets.find(p => p.id === id);
+    const pet = await pets.find(p => p.id === id);
     if (!pet) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
@@ -27,8 +27,7 @@ router.get('/pets/:id', (req, res) => {
 });
 
 // Rota para adicionar um novo pet 
-let nextId = 9
-router.post('/pets', (req, res) => {
+router.post('/pets', async (req, res) => {
     const {
         name,
         imagem,
@@ -40,8 +39,6 @@ router.post('/pets', (req, res) => {
         color,
         description
     } = req.body;
-
-    const id = nextId++
     
     const newPet = {
         id,
@@ -56,12 +53,12 @@ router.post('/pets', (req, res) => {
         description
     };
 
-    pets.push(newPet);
+    await pets.push(newPet);
     res.status(201).json(newPet);
 });
 
 // Rota para atualizar um pet existente pelo id
-router.put('/pets/:id', (req, res) => {
+router.put('/pets/:id', async (req, res) => {
     const  id = req.params.id;
     const {
         name,
@@ -75,7 +72,7 @@ router.put('/pets/:id', (req, res) => {
         description
     } = req.body;
 
-    const petIndex = pets.findIndex(p => p.id === id);
+    const petIndex = await pets.findIndex(p => p.id === id);
     if (petIndex === -1) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
@@ -98,14 +95,14 @@ router.put('/pets/:id', (req, res) => {
 });
 
 // Rota para deletar um pet pelo id
-router.delete('/pets/:id', (req, res) => {
+router.delete('/pets/:id', async (req, res) => {
     const  id  = req.params.id;
     const petIndex = pets.findIndex(p => p.id === id);
     if (petIndex === -1) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
 
-    const deletedPet = pets.splice(petIndex, 1);
+    const deletedPet = await pets.splice(petIndex, 1);
     res.json(deletedPet[0]);
 });
 
