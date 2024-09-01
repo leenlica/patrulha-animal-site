@@ -16,13 +16,12 @@ async function up() {
   `;
 
     const petsSql = `
-    CREATE TABLE pets (
+    CREATE TABLE IF NOT EXISTS pets (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome VARCHAR(40),
-      idade VARCHAR(25) NOT NULL,
-      condicao_fisica VARCHAR(255) NOT NULL,
-      especie VARCHAR(8) NOT NULL CHECK (especie IN ('Gato', 'Gata', 'Cachorro', 'Cachorra')),
-      cpf_doa VARCHAR(14) NOT NULL
+      name VARCHAR(40) NULL,
+      age VARCHAR(25) NOT NULL,
+      description VARCHAR(255) NOT NULL,
+      species VARCHAR(8) NOT NULL CHECK (species IN ('Gato', 'Gata', 'Cachorro', 'Cachorra'))
     )
   `;
 

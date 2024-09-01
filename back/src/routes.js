@@ -1,5 +1,5 @@
 import express from 'express';
-import  { pets }  from './data/apatrulha.js';
+import  Pets from './models/Pets.js';
 
 class HTTPError extends Error {
     constructor(message, code) {
@@ -13,13 +13,13 @@ const router = express.Router();
 // Rota para obter todos os pets 
 
 router.get('/pets', (req, res) => {
-    res.json(pets);
+    res.json(Pets);
 });
 
 // Rota para obter um pet específico por ID 
 router.get('/pets/:id', async (req, res) => {
     const { id } = req.params.id;
-    const pet = await pets.find(p => p.id === id);
+    const pet = await Pets.find(p => p.id === id);
     if (!pet) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
@@ -53,7 +53,7 @@ router.post('/pets', async (req, res) => {
         description
     };
 
-    await pets.push(newPet);
+    await Pets.push(newPet);
     res.status(201).json(newPet);
 });
 
@@ -72,7 +72,7 @@ router.put('/pets/:id', async (req, res) => {
         description
     } = req.body;
 
-    const petIndex = await pets.findIndex(p => p.id === id);
+    const petIndex = await Pets.findIndex(p => p.id === id);
     if (petIndex === -1) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
@@ -90,19 +90,19 @@ router.put('/pets/:id', async (req, res) => {
         description
     };
 
-    pets[petIndex] = updatedPet;
+    Pets[petIndex] = updatedPet;
     res.json(updatedPet);
 });
 
 // Rota para deletar um pet pelo id
 router.delete('/pets/:id', async (req, res) => {
     const  id  = req.params.id;
-    const petIndex = pets.findIndex(p => p.id === id);
+    const petIndex = Pets.findIndex(p => p.id === id);
     if (petIndex === -1) {
         return res.status(404).json({ message: 'Pet não encontrado' });
     }
 
-    const deletedPet = await pets.splice(petIndex, 1);
+    const deletedPet = await Pets.splice(petIndex, 1);
     res.json(deletedPet[0]);
 });
 
