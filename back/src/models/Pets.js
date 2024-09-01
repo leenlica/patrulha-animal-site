@@ -50,24 +50,67 @@ async function update(id, name, age, description, species) {
 
 async function readById(id) {
     const db = await Database.connect();
+    const sql = `
+        SELECT * FROM pets WHERE id = `;
+
+    const pet = await db.get(sql, [id]);
+    return pet;
+}
+
+//READ
+
+async function read(field, id) {
+    const db = await Database.connect();
+
+    if (field && id) {
+        const sql = `
+      SELECT
+          name, id, species
+        FROM
+          pets
+        WHERE
+          ${field} = '?'
+      `;
+
+        const investments = await db.all(sql, [id]);
+
+        return pets;
+    }
 
     const sql = `
-        SELECT * FROM pets WHERE id = ?
+    SELECT
+      name, id , species
+    FROM
+      pets
+  `;
+
+    const investments = await db.all(sql);
+
+    return pets;
+}
+
+// REMOVE 
+async function remove(id) {
+    const db = await Database.connect();
+
+    if (id) {
+        const sql = `
+      DELETE FROM
+        pets
+      WHERE
+        id = ?
     `;
 
-    try {
-        const pet = await db.get(sql, [id]);
-        if (pet) {
-            console.log('Pet encontrado:', pet);
-            return pet;
+        const { changes } = await db.run(sql, [id]);
+
+        if (changes === 1) {
+            return true;
         } else {
-            throw new Error('Pet not found');
+            throw new Error('pet not found');
         }
-    } catch (error) {
-        console.error('Erro ao ler o pet:', error);
-        throw error;
+    } else {
+        throw new Error('pet not found');
     }
 }
 
-
-export default { create, update, readById };
+export default { create, update, readById, read, remove };
