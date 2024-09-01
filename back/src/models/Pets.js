@@ -1,2 +1,5 @@
-import { investments } from '../database/data.js';
+import Database from '../database/database.js';
 
+//create
+
+//update
