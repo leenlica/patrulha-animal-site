@@ -1,0 +1,115 @@
+
+// request get para listar todos os animais
+curl http://localhost:3000/pets
+
+###
+//request get (pelo id) para encontrar um animal pelo id
+curl http://localhost:3000/pets/1
+
+###
+//request post para adicionar um novo animal
+curl -X POST 
+http://localhost:3000/pets 
+-H 'Content-Type: application/json' \
+-d '{
+"name":"Fido",
+"age":3,
+"species":"Cachorro",
+"breed":"Vira-lata",
+"description":"Um cachorro muito fofo"
+}'
+
+###
+// request put (pelo id) para atualizar um animal e seu status de adoção
+curl -X PUT \
+http://localhost:3000/pets/10 \
+-H 'Content-Type: application/json' \
+-d '{"name":"Fido","age":4,"adopted":true}'
+
+###
+// request delete (pelo id) para deletar um animal pelo id
+curl -X DELETE 
+http://localhost:3000/pets/1
+
+###
+// request post para adicionar um outro animal
+curl -X POST 
+http://localhost:3000/pets \
+-H 'Content-Type: application/json' \
+-d '{
+"name":"Bella",
+"age":2,
+"species":"Gata",
+"breed":"Siames",
+"description":"Uma gatinha de grande porte"}'
+
+###
+// request para encontrar outro animal pelo id
+curl http://localhost:3000/pets/2
+
+###
+// request para atualizar um outro animal e seu status pelo id
+curl -X PUT \
+http://localhost:3000/pets/2 \
+-H 'Content-Type: application/json' \
+-d '{"name":"Bella","age":3,"adopted":true}'
+
+###
+// request para deletar um outro animal pelo id
+curl -X DELETE \
+http://localhost:3000/pets/2
+
+###
+// request post para adicionar vários animais
+curl -X POST \
+http://localhost:3000/pets \
+-H 'Content-Type: application/json' \
+-d '{"name":"Max","age":5,"species":"Cachorro","breed":"Golden
+Retriever","description":"Um cachorro muito amigo"}'
+curl -X POST \
+http://localhost:3000/pets \
+-H 'Content-Type: application/json' \
+-d '{"name":"Luna","age":1,"species":"Gato","breed":"Persa","description":"Um gato muito
+curioso"}'
+curl -X POST \
+http://localhost:3000/pets \
+-H 'Content-Type: application/json' \
+-d '{"name":"Rocky","age":3,"species":"Cachorro","breed":"Bulldog","description":"Um
+cachorro muito forte"}'
+
+###
+//request get para obter/ver todos os animais
+curl http://localhost:3000/pets
+
+###
+//request get para obter/ver todos os animais pelo id
+curl http://localhost:3000/pets/1
+curl http://localhost:3000/pets/2
+curl http://localhost:3000/pets/3
+###
+//request para atualizar vários animais
+curl -X PUT \
+http://localhost:3000/pets/1 \
+-H 'Content-Type: application/json' \
+-d '{"name":"Fido","age":4,"adopted":true}'
+curl -X PUT \
+http://localhost:3000/pets/2 \
+-H 'Content-Type: application/json' \
+-d '{"name":"Bella","age":3,"adopted":true}'
+curl -X PUT \
+http://localhost:3000/pets/3 \
+-H 'Content-Type: application/json' \
+-d '{"name":"Rocky","age":4,"adopted":false}'
+
+###
+// request para deletar vários animais
+curl -X DELETE \
+http://localhost:3000/pets/1
+curl -X DELETE \
+http://localhost:3000/pets/2
+curl -X DELETE \
+http://localhost:3000/pets/3
+
+###
+// request para ver todos os animais e verificar o delete
+curl http://localhost:3000/pets

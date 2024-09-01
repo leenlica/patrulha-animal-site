@@ -10,6 +10,8 @@
     <link href="menu.css" rel="stylesheet">
     <link href="tudo.css" rel="stylesheet">
     <link href="pets.css" rel="stylesheet">
+    <link href="filtro.css" rel="stylesheet">
+
 
 </head>
     
@@ -60,6 +62,12 @@
         </div>
     </nav>
 
+    <div class="buscar">
+        <h1>Encontre seu futuro pet</h1>
+        <input type="text" id="searchInput" placeholder="Digite para filtrar...">
+        <ul id="listaanimais"></ul>
+    </div>
+
     <section class="section-pets">
         <p id="titulo"> <b>Pets para adoção</b>
         </p>
@@ -79,6 +87,8 @@
     crossorigin="anonymous"></script>
 
     <script src="pets.js" type="module">
+    </script>
+    <script src="filtro.js">
     </script>
 
 </body>

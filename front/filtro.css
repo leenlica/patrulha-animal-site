@@ -1,12 +1,14 @@
-/*Em andamento... Não adicionado ao site*/
+
 .buscar {
     width: 100%;
-    background: lightblue;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
     position: relative;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 100px
 }
 
 input {
@@ -14,11 +16,9 @@ input {
     height: 50px;
     padding-left: 20px;
     font-size: 22px;
-    border: 1px solide #ddd;
-    margin: 15px;
-    border-radius: 5px;
-
-
+    border: 1px solid #ddd;
+    margin: 15px 0;
+    border-radius: 5px
 }
 
 #listaanimais {
@@ -26,10 +26,8 @@ input {
     justify-content: left;
     width: 50%;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 70px;
+    margin: 10px 0 0 0;
+    padding: 0
 }
 
 #listaanimais li a {
@@ -41,6 +39,8 @@ input {
     border: 1px solid #ddd;
     background: #f6f6f6;
     padding: 12px;
+    margin-bottom: 5px;
+    font-family: Arial, Helvetica, sans-serif
 }
 
 
