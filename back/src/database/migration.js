@@ -16,8 +16,9 @@ async function up() {
   `;
 
     const petsSql = `
-    CREATE TABLE IF NOT EXISTS pets (
+    CREATE TABLE pets (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      imagem BLOB NULL,
       name VARCHAR(40) NULL,
       age VARCHAR(25) NOT NULL,
       description VARCHAR(255) NOT NULL,

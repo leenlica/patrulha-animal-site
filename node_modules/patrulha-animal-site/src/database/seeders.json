@@ -5,11 +5,7 @@
         "name": "Black",
         "imagem": "black.jpg",
         "species": "Cachorro",
-        "breed": "Labrador",
-        "size": "Grande",
-        "neighborhood": "Bairro das Indústrias",
         "age": "2 anos",
-        "color": "Preto",
         "description": "Black é um Labrador amigável e enérgico que adora brincar e passear.  Ele é bom em fazer amizade com outros cães e crianças. Um ótimo companheiro para fazer parte de sua família."
     },
     {
@@ -17,10 +13,7 @@
         "name": "Nina",
         "imagem": "nina.jpg",
         "species": "Gato",
-        "breed": "Siamês",
-        "neighborhood": "Oitizeiro",
         "age": "7 meses",
-        "color": "Creme e Preto",
         "description": "Nina é uma linda gatinha siamês com impressionantes olhos azuis.  Ela é independente e gosta de explorar o ambiente, mas também adora um colo quentinho para descansar. Uma parceria incrível para ter em seu lar."
     },
     {
@@ -28,11 +21,7 @@
         "name": "Daisy",
         "imagem": "daisy.jpg",
         "species": "Cachorro",
-        "breed": "Pincher",
-        "size": "Pequeno",
-        "neighborhood": "Jaguaribe",
         "age": "9 meses",
-        "color": "Caramelo",
         "description": " Daisy é uma doce e gentil cadelinha que adora ser abraçada e receber carinho. Ela é boa com outros animais e seria um ótimo animal de estimação para uma família com crianças."
     },
     {
@@ -40,10 +29,7 @@
         "name": "Banguela",
         "imagem": "banguela.jpg",
         "species": "Gato",
-        "breed": "Siamês",
-        "neighborhood": "Valentina Figueiredo",
         "age": "5 meses",
-        "color": "Preto e Branco ",
         "description": " Banguela adora receber carinho, principalmente na barriga, e socializar com outros gatos, sendo um ótimo animal de estimação para uma família que já tenha ou não um animal."
     },
     {
@@ -51,11 +37,7 @@
         "name": "Charel",
         "imagem": "charel.jpg",
         "species": "Cachorro",
-        "breed": "SRD (Sem Raça Definida)",
-        "size": "Médio",
-        "neighborhood": "Bairro das Indústrias",
         "age": "1 ano",
-        "color": "Branco ",
         "description": " Charel ama passeios e se aventurar, assim como um longo descanso em ambientes aconchegantes . Sendo um excelente  companheiro para todas as ocasiões "
     },
     {
@@ -63,33 +45,23 @@
         "name": null,
         "imagem": "semnome.jpg",
         "species": "Gata",
-        "breed": "SRD (Sem Raça Definida)",
-        "neighborhood": "Mangabeira",
         "age": "3 semanas ",
-        "color": "Malhado ",
         "description": " É uma gata que ama brincar, é curiosa e adora conhecer novos animais. Uma companheira perfeita para alegrar mais ainda a sua casa"
     },
     {
         "id": "07",
         "name": "Belinha",
         "imagem": "belinha.jpg",
-        "species": "Cachorra ",
-        "breed": "Pincher",
-        "size": "Pequeno",
-        "neighborhood": "Oitizeiro",
+        "species": "Cachorra",
         "age": "2 anos",
-        "color": "Vermelho castanho",
         "description": " Belinha é uma cachorra muito  esperta, agitada, carinhosa e leal para quem te dá amor. Transformando a vida de que à adotar mais leve e feliz, tendo uma companheira e afeto incondicional "
     },
     {
         "id": "08",
         "name": "Leon",
         "imagem": "leon.jpg",
-        "species": "Gato ",
-        "breed": "SRD (Sem Raça Definida)",
-        "neighborhood": "Valentina Figueiredo",
+        "species": "Gato",
         "age": "4 anos",
-        "color": "Laranja ",
         "description": "Leon é um gato ágil, aventureiro, ama um carinho e fazer amizade com outros gatos e pessoas. No qual, com certeza, irá transformar a vida do futuro tutor, para melhor "
     },
     {
@@ -97,12 +69,8 @@
         "name": "Estrela",
         "imagem": "estela.jpg",
         "species": "Gato",
-       "breed": "SRD (Sem Raça Definida)",
-       "neighborhood": "Jaguaribe",
         "age": "1 ano",
-        "weight": "2.7kg",
-        "color": "Branco",
-        "descriptio": " Estrela é uma linda gata, alegre e amorosa. Seus olhos transbordam sua energia apaixonante. Você e sua família vão amar ter um pacote de alegria em casa."
+        "description": " Estrela é uma linda gata, alegre e amorosa. Seus olhos transbordam sua energia apaixonante. Você e sua família vão amar ter um pacote de alegria em casa."
     }
 ]
 }

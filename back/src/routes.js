@@ -12,8 +12,10 @@ const router = express.Router();
 
 // Rota para obter todos os pets 
 
-router.get('/pets', (req, res) => {
-    res.json(Pets);
+router.get('/pets', async (req, res) => {
+    const pets = await Pets.read();
+
+    res.json(pets);
 });
 
 // Rota para obter um pet específico por ID 
@@ -113,7 +115,7 @@ router.use((req, res, next) => {
 
 // Error handler
 router.use((err, req, res, next) => {
-    // console.error(err.stack);
+    console.error(err.stack);
     if (err instanceof HTTPError) {
         res.status(err.code).json({ message: err.message });
     } else {
