@@ -1,5 +1,6 @@
 import express from 'express';
 import  Pets from './models/Pets.js';
+import curtida from './models/curtida.js'; 
 
 class HTTPError extends Error {
     constructor(message, code) {
@@ -106,6 +107,19 @@ router.delete('/pets/:id', async (req, res) => {
 
     const deletedPet = await Pets.splice(petIndex, 1);
     res.json(deletedPet[0]);
+});
+
+// Rota para adicionar uma curtida
+router.post('/like', async (req, res) => {
+    const { pet_id, usuario_id } = req.body;
+
+    try {
+        const id_curtida = await curtida.create(pet_id, usuario_id);
+        res.status(201).json({ message: 'Curtida adicionada', id_curtida });
+    } catch (error) {
+        console.error('Erro ao adicionar curtida:', error);
+        res.status(500).json({ error: 'Erro ao adicionar curtida' });
+    }
 });
 
 // 404 handler

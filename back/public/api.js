@@ -67,5 +67,16 @@ async function removerPet(id) {
         throw error;
     }
 }
+// adicionar like 
 
-export default { create, read, update, remove, removerPet };
+async function addLike(pet_id, usuario_id) {
+    try {
+        return await create('/like', { pet_id, usuario_id });
+    } catch (error) {
+        console.error('Erro ao adicionar curtida:', error);
+        throw error;
+    }
+}
+
+
+export default { create, read, update, remove, removerPet, addLike };

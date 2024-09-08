@@ -23,10 +23,18 @@ async function carregar() {
             button.classList.add("botao")
             button.textContent = "Adote!"
 
+            const likeButton = document.createElement("button");
+            likeButton.innerHTML = `<i class="fas fa-heart"></i>`;
+            likeButton.classList.add("like-button");
+            likeButton.addEventListener("click", async () => {
+                await API.addLike(pet.id);
+            });
+
             card.appendChild(img)
             card.appendChild(titulo)
             card.appendChild(descricao)
             card.appendChild(button)
+            card.appendChild(likeButton);
             container.appendChild(card)
         });
     }

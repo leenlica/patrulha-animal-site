@@ -26,6 +26,17 @@ async function up() {
     )
   `;
 
+    const curtidasSql = `
+    CREATE TABLE curtidas ( 
+    id_curtida INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NULL, 
+    pet_id INTEGER NOT NULL, 
+    data_curtida DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    FOREIGN KEY (usuario_id) REFERENCES usuario (id_usuario), 
+    FOREIGN KEY (pet_id) REFERENCES pets (id) 
+    ) 
+    `;
+
     const usuarioSql = `
     CREATE TABLE usuario (
       id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,6 +61,7 @@ async function up() {
 
     await db.run(enderecoSql);
     await db.run(petsSql);
+    await db.run(curtidasSql);
     await db.run(usuarioSql);
     await db.run(adocaoSql);
 }

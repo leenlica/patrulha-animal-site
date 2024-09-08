@@ -3,6 +3,11 @@
 curl http://localhost:3000/pets
 
 ###
+// request get para obter like
+curl
+http://localhost:3000/like
+
+###
 //request get (pelo id) para encontrar um animal pelo id
 curl http://localhost:3000/pets/1
 
