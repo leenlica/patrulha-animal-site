@@ -124,4 +124,4 @@ async function remove(id) {
     }
 }
 
-export default { create, update, readById, read, remove, };
+export default { create, update, readById, read, remove };

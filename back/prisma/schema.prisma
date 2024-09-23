@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model endereco {
+  id_endereco Int    @id @default(autoincrement())
+  rua         String
+  numero      Int
+  bairro      String
+  cidade      String
+  estado      String
+  cep         String
+
+  usuario usuario[]
+}
+
+model Pets {
+  id          Int     @id @default(autoincrement())
+  imagem      String?
+  name        String?
+  age         String
+  description String
+  species     String
+
+  Curtida Curtida[]
+
+  adocao adocao[]
+}
+
+model Curtida {
+  id_curtida   Int      @id @default(autoincrement())
+  usuario_id   Int      @unique
+  pet_id       Int      @unique
+  data_curtida DateTime
+  pet          Pets     @relation(fields: [pet_id], references: [id])
+  usuario      usuario  @relation(fields: [usuario_id], references: [id_usuario])
+}
+
+model usuario {
+  id_usuario  Int       @id @default(autoincrement())
+  cpf_doa     String
+  nome        String
+  email       String
+  password    String
+  telefone_um String
+  endereco_id Int       @unique
+  endereco    endereco  @relation(fields: [endereco_id], references: [id_endereco])
+  Curtida     Curtida[]
+  adocao      adocao[]
+}
+
+model adocao {
+  id_ado     Int     @id @default(autoincrement())
+  usuario_id Int     @unique
+  pet_id     Int     @unique
+  pet        Pets    @relation(fields: [pet_id], references: [id])
+  usuario    usuario @relation(fields: [usuario_id], references: [id_usuario])
+}
