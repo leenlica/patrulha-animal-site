@@ -1,16 +1,14 @@
-import Database from '../database/database.js';
+import prisma from '../database/database.js';
 
 async function create(pet_id, usuario_id) {
-    const db = await Database.connect();
+    const result = await prisma.curtida.create({
+        data: {
+            pet_id: pet_id,
+            usuario_id: usuario_id || null
+        }
+    });
 
-    const sql = `
-        INSERT INTO curtidas (pet_id, usuario_id)
-        VALUES (?, ?)
-    `;
-
-    const result = await db.run(sql, [pet_id, usuario_id || null]);
-
-    return result.lastID;
+    return result.id_curtida;
 }
 
-export default { create}
+export default { create };

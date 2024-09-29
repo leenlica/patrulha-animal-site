@@ -1,62 +1,50 @@
-import Database from '../database/database.js';
+import prisma from '../database/database.js';
 
-//create
-
+// create
 async function create({ name, imagem, age, description, species }) {
-    const db = await Database.connect();
-
     if (age && description && species) {
-        const sql = `
-            INSERT INTO
-                pets (name, imagem, age, description, species)
-            VALUES (?, ?, ?, ?, ?)
-        `;
+        const pet = await prisma.pets.create({
+            data: {
+                name: name || null,
+                imagem: imagem || null,
+                age: age,
+                description: description,
+                species: species
+            }
+        });
 
-        const { lastID } = await db.run(sql, [name || null, imagem || null, age, description, species]);
-
-        return await readById(lastID);
+        return await readById(pet.id);
     } else {
-        throw new Error('Unable to create pet'); 
+        throw new Error('Unable to create pet');
     }
 }
 
-
-//update
-
+// update
 async function update(id, imagem, name, age, description, species) {
-    const db = await Database.connect();
-
     if (id && name && imagem && age && description && species) {
-        const sql = `
-            UPDATE
-                pets
-            SET
-                name = ?, imagem = ?, age = ?, description = ?, species = ?
-            WHERE
-                id = ?
-        `;
+        const pet = await prisma.pets.update({
+            where: { id: id },
+            data: {
+                name: name,
+                imagem: imagem,
+                age: age,
+                description: description,
+                species: species
+            }
+        });
 
-        const { changes } = await db.run(sql, [name, imagem, age, description, species, id]);
-
-        if (changes === 1) {
-            return readById(id);
-        } else {
-            throw new Error('Pet not found');
-        }
+        return pet;
     } else {
         throw new Error('Unable to update pet');
     }
 }
 
-//readById
+// readById
 async function readById(id) {
-    const db = await Database.connect();
-
     if (id) {
-        const sql = `
-         SELECT * FROM pets WHERE id = ? `;
-
-        const pet = await db.get(sql, [id]);
+        const pet = await prisma.pets.findUnique({
+            where: { id: id }
+        });
 
         if (pet) {
             return pet;
@@ -68,59 +56,46 @@ async function readById(id) {
     }
 }
 
-//READ
-
+// read
 async function read(field, id) {
-    const db = await Database.connect();
-
     if (field && id) {
-        const sql = `
-      SELECT
-          name, imagem, id, species, description
-        FROM
-          pets
-        WHERE
-          ${field} = '?'
-      `;
-
-        const pets = await db.all(sql, [id]);
+        const pets = await prisma.pets.findMany({
+            where: { [field]: id },
+            select: {
+                name: true,
+                imagem: true,
+                id: true,
+                species: true,
+                description: true
+            }
+        });
 
         return pets;
     }
 
-    const sql = `
-    SELECT
-      name, imagem, id, species, description
-    FROM
-      pets
-  `;
-
-    const pets = await db.all(sql);
+    const pets = await prisma.pets.findMany({
+        select: {
+            name: true,
+            imagem: true,
+            id: true,
+            species: true,
+            description: true
+        }
+    });
 
     return pets;
 }
 
-// REMOVE 
+// remove
 async function remove(id) {
-    const db = await Database.connect();
-
     if (id) {
-        const sql = `
-      DELETE FROM
-        pets
-      WHERE
-        id = ?
-    `;
+        const pet = await prisma.pets.delete({
+            where: { id: id }
+        });
 
-        const { changes } = await db.run(sql, [id]);
-
-        if (changes === 1) {
-            return true;
-        } else {
-            throw new Error('pet not found');
-        }
+        return !!pet;
     } else {
-        throw new Error('pet not found');
+        throw new Error('Pet not found');
     }
 }
 

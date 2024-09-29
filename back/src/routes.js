@@ -1,6 +1,7 @@
 import express from 'express';
 import  Pets from './models/Pets.js';
 import curtida from './models/curtida.js'; 
+import User from './models/User.js';
 
 class HTTPError extends Error {
     constructor(message, code) {
@@ -10,6 +11,32 @@ class HTTPError extends Error {
 }
 
 const router = express.Router();
+
+const SALT_ROUNDS = 10; // Número de rounds para o hash de bcrypt
+
+// Rota para cadastro de um novo usuário
+router.post('/users', async (req, res) => {
+    try {
+        const user = req.body;
+
+        if (user.password !== user.confirmationPassword) {
+            return res.status(400).json({ message: 'As senhas não coincidem' });
+        }
+
+        delete user.confirmationPassword;
+
+        const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+        user.password = hashedPassword;
+        const newUser = await User.createUsuario(user);
+        delete newUser.password;
+
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error('Erro ao cadastrar usuário:', error);
+        throw new HTTPError('Não foi possível cadastrar o usuário', 400);
+    }
+});
+
 
 // Rota para obter todos os pets 
 
