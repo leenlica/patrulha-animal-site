@@ -19,7 +19,7 @@
 
 }
 
-.cadastro input {
+.campo {
     padding: 15px;
     border: none;
     outline: none;
@@ -30,7 +30,7 @@
     position: relative;
 }
 
-.cadastro button {
+.cadenvio {
     background-color: dodgerblue;
     border: none;
     padding: 15px;
