@@ -2,20 +2,26 @@ import prisma from '../database/database.js';
 
 // create
 async function create({ name, imagem, age, description, species }) {
-    if (age && description && species) {
+    try {
+        console.log('Dados recebidos para criação:', { name, imagem, age, description, species });
+        if (!age || !description || !species) {
+            throw new Error('Os campos age, description e species são obrigatórios.');
+        }
+
         const pet = await prisma.pets.create({
             data: {
                 name: name || null,
                 imagem: imagem || null,
                 age: age,
                 description: description,
-                species: species
-            }
+                species: species,
+            },
         });
 
         return await readById(pet.id);
-    } else {
-        throw new Error('Unable to create pet');
+    } catch (error) {
+        console.error('Erro ao criar pet:', error);
+        throw new Error('Erro ao adicionar pet.'); 
     }
 }
 

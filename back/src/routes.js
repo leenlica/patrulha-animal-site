@@ -12,28 +12,60 @@ class HTTPError extends Error {
 
 const router = express.Router();
 
-const SALT_ROUNDS = 10; // Número de rounds para o hash de bcrypt
-
-// Rota para cadastro de um novo usuário
+//rota para criar
 router.post('/users', async (req, res) => {
     try {
-        const user = req.body;
-
-        if (user.password !== user.confirmationPassword) {
-            return res.status(400).json({ message: 'As senhas não coincidem' });
-        }
-
-        delete user.confirmationPassword;
-
-        const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
-        user.password = hashedPassword;
-        const newUser = await User.createUsuario(user);
-        delete newUser.password;
-
-        res.status(201).json(newUser);
+        const { nome, email, password } = req.body;
+        const user = await User.create(nome, email, password);
+        return res.status(201).json(user);
     } catch (error) {
-        console.error('Erro ao cadastrar usuário:', error);
-        throw new HTTPError('Não foi possível cadastrar o usuário', 400);
+        console.error('Erro ao criar usuário:', error);
+        return res.status(400).json({ error: error.message });
+    }
+});
+
+// Rota para obter todos os usuários
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.read();
+        return res.status(200).json(users);
+    } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+        return res.status(500).json({ error: 'Erro ao buscar usuários' });
+    }
+});
+
+// Rota para atualizar informações de um usuário existente pelo ID
+router.put('/users/:id', async (req, res) => {
+    try {
+        const user = req.body;
+        const { id } = req.params;
+
+        delete user.password;
+
+        const updatedUser = await User.update({ ...user, id });
+
+        delete updatedUser.password;
+
+        return res.json(updatedUser);
+    } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
+        throw new HTTPError('Unable to update user', 400);
+    }
+});
+// Rota para deletar um usuário pelo ID
+router.delete('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (await User.remove(id)) {
+            return res.sendStatus(204);
+        } else {
+            throw new Error();
+        }
+    } catch (error) {
+        console.error('Erro ao remover usuário:', error);
+        throw new HTTPError('Unable to remove user', 400);
     }
 });
 
@@ -58,33 +90,15 @@ router.get('/pets/:id', async (req, res) => {
 
 // Rota para adicionar um novo pet 
 router.post('/pets', async (req, res) => {
-    const {
-        name,
-        imagem,
-        species,
-        breed,
-        size,
-        neighborhood,
-        age,
-        color,
-        description
-    } = req.body;
-    
-    const newPet = {
-        id,
-        name,
-        imagem,
-        species,
-        breed,
-        size,
-        neighborhood,
-        age,
-        color,
-        description
-    };
+    const { name, imagem, age, description, species } = req.body;
 
-    await Pets.push(newPet);
-    res.status(201).json(newPet);
+    try {
+        const newPet = await Pets.create({ name, imagem, age, description, species });
+        res.status(201).json(newPet);
+    } catch (error) {
+        console.error('Erro ao adicionar pet:', error);
+        res.status(500).json({ error: 'Erro ao adicionar pet.' });
+    }
 });
 
 // Rota para atualizar um pet existente pelo id
@@ -94,11 +108,7 @@ router.put('/pets/:id', async (req, res) => {
         name,
         imagem,
         species,
-        breed,
-        size,
-        neighborhood,
         age,
-        color,
         description
     } = req.body;
 
@@ -112,11 +122,7 @@ router.put('/pets/:id', async (req, res) => {
         name,
         imagem,
         species,
-        breed,
-        size,
-        neighborhood,
         age,
-        color,
         description
     };
 

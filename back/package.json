@@ -6,10 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "db:reload": "npm run db:drop && npm run db:load",
-    "db:load": "node src/database/load.js",
-    "db:drop": "rm src/database/db.sqlite"
+    "dev": "node --watch src/index.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
