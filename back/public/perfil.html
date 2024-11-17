@@ -70,8 +70,8 @@
             <div class="avatar">
                 <img src="https://via.placeholder.com/150" alt="Avatar do Usuário">
             </div>
-            <h1>Nome do Usuário</h1>
-            <p>Email: usuario@example.com</p>
+            <h1 id="user-name">Nome do Usuário</h1>
+            <p id="user-email">Email: usuario@example.com</p>
         </div>
         <div class="profile-actions">
             <button class="btn-edit"><i class="fas fa-edit"></i> Editar Perfil</button>
@@ -91,6 +91,8 @@
             logoutButton.addEventListener('click', () => {
                 // Remove o estado de autenticação
                 localStorage.removeItem('authenticated');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
                 window.location.href = './signin.html';
             });
         });
@@ -108,6 +110,22 @@
             perfilNavItem.style.display = 'block';
         }
     });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (userName && userEmail) {
+                // Atualizar os elementos da página com os dados do usuário
+                document.getElementById('user-name').textContent = userName;
+                document.getElementById('user-email').textContent = `Email: ${userEmail}`;
+            } else {
+                // Redirecionar para a página de login se o usuário não estiver autenticado
+                window.location.href = './login.html';
+            }
+        });
 </script>
 <script type="module" src="auth.js"></script>
 </html>

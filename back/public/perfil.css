@@ -3,9 +3,8 @@
 .profile-container {
     max-width: 600px;
     margin: 50px auto;
-    background: #ffffff;
+    background: rgb(163, 201, 223);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
 }
@@ -25,6 +24,7 @@ h1 {
     font-size: 24px;
     margin: 10px 0;
     color: #333;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 p {
@@ -65,11 +65,13 @@ button {
 .btn-edit {
     background-color: #007bff;
     color: white;
+    border-radius: 5px;
 }
 
 .btn-logout {
     background-color: #dc3545;
     color: white;
+    border-radius: 5px;
 }
 
 button:hover {

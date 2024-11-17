@@ -42,27 +42,20 @@ router.post('/users', async (req, res) => {
 router.post('/signin', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log('Requisição de login recebida:', { email });
 
         const user = await prisma.user.findUnique({
             where: { email: email },
         });
 
         if (!user) {
-            console.log('Usuário não encontrado');
             return res.status(401).json({ auth: false, message: 'User not found' });
         }
-
-        console.log('Usuário encontrado:', user);
 
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
-            console.log('Senha inválida');
             return res.status(401).json({ auth: false, message: 'Invalid password' });
         }
-
-        console.log('Senha validada com sucesso');
 
         // Gerar um token JWT
         const token = jwt.sign(
@@ -71,9 +64,15 @@ router.post('/signin', async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        console.log('Token gerado com sucesso');
-
-        return res.json({ auth: true, token });
+        // Retornar token e dados do usuário
+        return res.json({
+            auth: true,
+            token,
+            user: {
+                nome: user.nome,
+                email: user.email,
+            },
+        });
     } catch (error) {
         console.error('Erro durante o login:', error);
         res.status(500).json({ auth: false, message: 'Internal server error' });
