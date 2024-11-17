@@ -85,13 +85,12 @@
     crossorigin="anonymous"></script>
 <script>
       document.addEventListener('DOMContentLoaded', () => {
-            const logoutButton = document.getElementById('logout-button'); // Botão de logout
+            const logoutButton = document.getElementById('logout-button'); 
 
             // Evento de clique no botão "Sair"
             logoutButton.addEventListener('click', () => {
                 // Remove o estado de autenticação
                 localStorage.removeItem('authenticated');
-                // Redirecionar para a página de login
                 window.location.href = './signin.html';
             });
         });
@@ -100,8 +99,7 @@
 <script>
    document.addEventListener('DOMContentLoaded', () => {
         const isAuthenticated = localStorage.getItem('authenticated');
-        console.log('Autenticado?', isAuthenticated); // Verifica o valor de isAuthenticated
-
+        console.log('Autenticado?', isAuthenticated); 
         const perfilNavItem = document.getElementById('nav-perfil');
 
         if (!isAuthenticated) {
