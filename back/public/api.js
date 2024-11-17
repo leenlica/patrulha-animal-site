@@ -1,6 +1,8 @@
+import Auth from './auth.js';
+
 const domain = 'http://localhost:3000';
 
-async function create(resource, data) {
+async function create(resource, data, auth = true) {
     const url = `${domain}${resource}`;
 
     const config = {
@@ -12,13 +14,29 @@ async function create(resource, data) {
         },
     };
 
+    if (auth) {
+        config.headers.Authorization = `Bearer ${Auth.getToken()}`;
+    }
+
     const res = await fetch(url, config);
+
+    if (res.status === 401) {
+        Auth.signout();
+    }
 
     return await res.json();
 }
+
 //read
 async function read(resource) {
     const url = `${domain}${resource}`;
+
+    const config = {
+        method: 'get',
+        headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+        },
+    };
 
     const res = await fetch(url);
 
@@ -35,6 +53,7 @@ async function update(resource, data) {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${Auth.getToken()}`,
         },
     };
 
@@ -49,6 +68,9 @@ async function remove(resource) {
     const config = {
         method: 'DELETE',
         mode: 'cors',
+        headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+        },
     };
 
     await fetch(url, config);
@@ -67,16 +89,18 @@ async function removerPet(id) {
         throw error;
     }
 }
-// adicionar like 
-
 async function addLike(pet_id, usuario_id) {
     try {
-        return await create('/like', { pet_id, usuario_id });
+        const response = await create('/like', { pet_id, usuario_id });
+
+        if (response.id_curtida) {
+            console.log('Curtida adicionada com sucesso. ID:', response.id_curtida);
+        } else {
+            console.error('Erro ao adicionar a curtida');
+        }
     } catch (error) {
         console.error('Erro ao adicionar curtida:', error);
-        throw error;
     }
 }
-
 
 export default { create, read, update, remove, removerPet, addLike };

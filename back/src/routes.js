@@ -1,5 +1,11 @@
 import express from 'express';
-import  Pets from './models/Pets.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import prisma from './database/database.js';
+
+import { isAuthenticated } from './middleware/auth.js';
+
+import Pets from './models/Pets.js';
 import curtida from './models/curtida.js'; 
 import User from './models/User.js';
 
@@ -12,15 +18,79 @@ class HTTPError extends Error {
 
 const router = express.Router();
 
-//rota para criar
+
+//rota para criar user
 router.post('/users', async (req, res) => {
     try {
-        const { nome, email, password } = req.body;
-        const user = await User.create(nome, email, password);
-        return res.status(201).json(user);
+        const { nome, email, password, confirmationPassword } = req.body;
+
+        if (password !== confirmationPassword) {
+            return res.status(400).json({ error: 'Passwords do not match' });
+        }
+
+        const newUser = await User.create(nome, email, password);
+
+        delete newUser.password; 
+        res.status(201).json(newUser);
     } catch (error) {
-        console.error('Erro ao criar usuário:', error);
-        return res.status(400).json({ error: error.message });
+        console.error('Error creating user:', error);
+        res.status(500).json({ error: 'Unable to create user' });
+    }
+});
+
+// Rota de login
+router.post('/signin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log('Requisição de login recebida:', { email });
+
+        const user = await prisma.user.findUnique({
+            where: { email: email },
+        });
+
+        if (!user) {
+            console.log('Usuário não encontrado');
+            return res.status(401).json({ auth: false, message: 'User not found' });
+        }
+
+        console.log('Usuário encontrado:', user);
+
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            console.log('Senha inválida');
+            return res.status(401).json({ auth: false, message: 'Invalid password' });
+        }
+
+        console.log('Senha validada com sucesso');
+
+        // Gerar um token JWT
+        const token = jwt.sign(
+            { userId: user.id_usuario },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        console.log('Token gerado com sucesso');
+
+        return res.json({ auth: true, token });
+    } catch (error) {
+        console.error('Erro durante o login:', error);
+        res.status(500).json({ auth: false, message: 'Internal server error' });
+    }
+});
+
+router.get('/users/me',  isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const user = await User.readById(userId);
+
+        delete user.password;
+
+        return res.json(user);
+    } catch (error) {
+        throw new HTTPError('Unable to find user', 400);
     }
 });
 
@@ -36,7 +106,7 @@ router.get('/users', async (req, res) => {
 });
 
 // Rota para atualizar informações de um usuário existente pelo ID
-router.put('/users/:id', async (req, res) => {
+router.put('/users/:id', isAuthenticated, async (req, res) => {
     try {
         const user = req.body;
         const { id } = req.params;
@@ -54,7 +124,7 @@ router.put('/users/:id', async (req, res) => {
     }
 });
 // Rota para deletar um usuário pelo ID
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', isAuthenticated, async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -79,7 +149,7 @@ router.get('/pets', async (req, res) => {
 });
 
 // Rota para obter um pet específico por ID 
-router.get('/pets/:id', async (req, res) => {
+router.get('/pets/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params.id;
     const pet = await Pets.find(p => p.id === id);
     if (!pet) {
@@ -89,7 +159,7 @@ router.get('/pets/:id', async (req, res) => {
 });
 
 // Rota para adicionar um novo pet 
-router.post('/pets', async (req, res) => {
+router.post('/pets', isAuthenticated, async (req, res) => {
     const { name, imagem, age, description, species } = req.body;
 
     try {
@@ -102,7 +172,7 @@ router.post('/pets', async (req, res) => {
 });
 
 // Rota para atualizar um pet existente pelo id
-router.put('/pets/:id', async (req, res) => {
+router.put('/pets/:id', isAuthenticated, async (req, res) => {
     const  id = req.params.id;
     const {
         name,
@@ -131,7 +201,7 @@ router.put('/pets/:id', async (req, res) => {
 });
 
 // Rota para deletar um pet pelo id
-router.delete('/pets/:id', async (req, res) => {
+router.delete('/pets/:id', isAuthenticated, async (req, res) => {
     const  id  = req.params.id;
     const petIndex = Pets.findIndex(p => p.id === id);
     if (petIndex === -1) {
@@ -146,12 +216,17 @@ router.delete('/pets/:id', async (req, res) => {
 router.post('/like', async (req, res) => {
     const { pet_id, usuario_id } = req.body;
 
+    if (!pet_id || !usuario_id) {
+        return res.status(400).json({ error: 'Pet ID e Usuario ID são obrigatórios' });
+    }
+
     try {
-        const id_curtida = await curtida.create(pet_id, usuario_id);
-        res.status(201).json({ message: 'Curtida adicionada', id_curtida });
+        const curtidaId = await curtida.create(pet_id, usuario_id);
+
+        return res.status(201).json({ id_curtida: curtidaId });
     } catch (error) {
         console.error('Erro ao adicionar curtida:', error);
-        res.status(500).json({ error: 'Erro ao adicionar curtida' });
+        return res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
 

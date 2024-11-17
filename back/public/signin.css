@@ -20,7 +20,7 @@
 
 }
 
-.login input {
+.caixa {
     padding: 15px;
     border: none;
     outline: none;
@@ -31,7 +31,7 @@
     position: relative;
 }
 
-.login button {
+.signinbttn {
     background-color: dodgerblue;
     border: none;
     padding: 15px;
@@ -41,7 +41,7 @@
     font-size: 15px;
 }
 
-.login button:hover {
+.signinbttn:hover {
     background-color: lightskyblue;
     cursor: pointer;
 }

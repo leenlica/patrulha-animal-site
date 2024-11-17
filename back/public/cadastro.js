@@ -14,7 +14,7 @@ async function handleSubmit(event) {
     try {
         const response = await API.create('/users', user);
         if (response && response.email) {
-            location.href = '/back/public/login.html'; 
+            location.href = '/back/public/signin.html'; 
         } else {
             console.log('Erro no cadastro');
         }

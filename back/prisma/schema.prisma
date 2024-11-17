@@ -37,18 +37,18 @@ model Pets {
 
 model Curtida {
   id_curtida   Int      @id @default(autoincrement())
-  usuario_id   Int?      @unique
-  pet_id       Int      @unique
+  usuario_id   Int      
+  pet_id       Int      
   data_curtida DateTime?
   pet          Pets     @relation(fields: [pet_id], references: [id])
-  user         user?  @relation(fields: [usuario_id], references: [id_usuario])
+  user         user  @relation(fields: [usuario_id], references: [id_usuario])
 }
 
 model user {
   id_usuario  Int       @id @default(autoincrement())
   cpf         String?
   nome        String
-  email       String
+  email       String     @unique
   password    String
   endereco_id Int?       @unique
   endereco    endereco?  @relation(fields: [endereco_id], references: [id_endereco])

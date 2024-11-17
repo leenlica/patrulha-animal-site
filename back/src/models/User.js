@@ -4,33 +4,34 @@ import prisma from '../database/database.js';
 const saltRounds = Number(process.env.BCRYPT_SALT);
 
 async function create(nome, email, password) {
-    if (nome && email && password) {
-        const hash = await bcrypt.hash(password, saltRounds);
-
-        const createdUser = await prisma.user.create({
-            data: {
-                nome,
-                email,
-                password: hash
-            },
-        });
-
-        return createdUser;
-    } else {
-        throw new Error('Unable to create user');
+    if (!nome || !email || !password) {
+        throw new Error('Missing required fields');
     }
+
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    const createdUser = await prisma.user.create({
+        data: {
+            nome,
+            email,
+            password: hash,
+        },
+    });
+
+    return createdUser;
 }
 
+
 // Busca um usuário no banco de dados usando o ID fornecido.
-async function readById(id) {
-    if (!id) {
+async function readById(userId) {
+    if (!userId) {
         throw new Error('O ID do usuário é obrigatório.');
     }
 
     const user = await prisma.user.findUnique({
-        where: { id },
+        where: { id_usuario: userId }, 
         select: {
-            id: true,
+            id_usuario: true,
             nome: true,
             email: true,
         },
@@ -41,6 +42,7 @@ async function readById(id) {
     }
     return user;
 }
+
 
 // Retorna uma lista de usuários com informações básicas (ID, nome e e-mail).
 async function read() {
