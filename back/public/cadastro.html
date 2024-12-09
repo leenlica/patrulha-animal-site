@@ -67,21 +67,22 @@
         <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f43e.gif" alt="gif patinhas"
             width="40px" />
     </h1>
-
-    <input type="text" name="nome" placeholder="Nome" class="campo" required>
-    <br><br>
-
-    <input type="email" name="email" placeholder="E-mail" class="campo" required>
-    <br><br>
-
+    <div class="form-group">
+    <input type="text" name="nome" placeholder="Nome" class="campo">
+    </div>
+    <br>
+    <div class="form-group">
+    <input name="email" placeholder="E-mail" class="campo">
+    </div>
+    <br>
     <div style="position: relative;">
-        <input type="password" name="password" placeholder="Digite a Senha" id="Senha" class="campo" required>
+        <input type="password" name="password" placeholder="Digite a Senha" id="Senha" class="campo" >
         <i class="bi bi-eye-fill" id="btn-senha" onclick="Mostrarsenha()"></i>
     </div>
     <br>
 
     <div style="position: relative;">
-        <input type="password" name="confirmationPassword" placeholder="Confirme a Senha" id="Senha2" class="campo" required>
+        <input type="password" name="confirmationPassword" placeholder="Confirme a Senha" id="Senha2" class="campo">
         <i style="right: 9%; top:10%;" class="bi bi-eye-fill" id="btn-senha2" onclick="Mostrarsenha2()"></i>
     </div>
     <br><br>
@@ -89,13 +90,12 @@
     <input type="submit" class="cadenvio" value="cadastre-se" />
 </form>
 
-    <div class="espaco">
-    </div>
+<div class="espaco">
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
     <script src="showpass.js"></script>
     <script type="module" src="cadastro.js"></script>
 

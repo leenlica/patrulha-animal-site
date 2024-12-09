@@ -103,4 +103,6 @@ async function addLike(pet_id, usuario_id) {
     }
 }
 
-export default { create, read, update, remove, removerPet, addLike };
+
+
+export default { create, read, update, remove, removerPet, addLike};

@@ -26,6 +26,8 @@
     "morgan": "^1.10.0",
     "patrulha-animal-site": "file:",
     "prisma": "^5.19.1",
-    "sqlite-async": "^1.2.0"
+    "sqlite-async": "^1.2.0",
+    "sqlite3": "^5.1.7",
+    "zod": "^3.23.8"
   }
 }

@@ -14,6 +14,20 @@ Content-Type: application/json
 "confirmationPassword": "senhaSegura"
 }
 
+
+### Create User
+
+# @name createdUser
+POST {{host}}/users
+Content-Type: application/json
+
+{  
+"nome": "",
+"email": "exemplo@gmail.com",
+"password": "senhaSegura",
+"confirmationPassword": "senhaSegura"
+}
+
 ### Signin 401
  
 # @name signin
@@ -96,9 +110,9 @@ Content-Type: application/json
 
 {
 "name":"Fido",
-"age": "3 anos",
+"age": 3,
 "description":"Um cachorro muito fofo",
-"species":"Cachorro",
+"species":"Cachorro"
 }
 
 ### request put (pelo id) para atualizar um animal e seu status de adoção
@@ -115,16 +129,19 @@ Content-Type: application/json
 DELETE http://localhost:3000/pets/1
 Authorization: bearer {{token}} 
 
-### request post para adicionar vários animais
+### request post para adicionar pet
 POST http://localhost:3000/pets
 Authorization: bearer {{token}} 
 Content-Type: application/json
 
-{"name":"Max",
-"age": "5 meses",
-"species":"Cachorro",
-"breed":"Golden Retriever",
-"description":"Um cachorro muito amigo"}
+{
+"name":"Max",
+"age": 5,
+"description":"amigavel",
+"species":"Cachorro"
+}
+
+### request post para adicionar pet
 
 POST http://localhost:3000/pets
 Authorization: bearer {{token}} 

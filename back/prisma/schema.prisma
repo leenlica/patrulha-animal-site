@@ -63,3 +63,4 @@ model adocao {
   pet        Pets    @relation(fields: [pet_id], references: [id])
   user       user @relation(fields: [usuario_id], references: [id_usuario])
 }
+

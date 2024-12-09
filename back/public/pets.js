@@ -10,7 +10,7 @@ async function carregar() {
             card.classList.add("card")
 
             const img = document.createElement("img")
-            img.src = 'http://localhost:3000/img/'+pet.imagem
+            img.src = 'http://localhost:3000/img/' + pet.imagem
             img.alt = pet.name
 
             const titulo = document.createElement("h3")

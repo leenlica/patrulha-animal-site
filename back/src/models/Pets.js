@@ -14,7 +14,7 @@ async function create({ name, imagem, age, description, species }) {
                 imagem: imagem || null,
                 age: age,
                 description: description,
-                species: species,
+                species: species
             },
         });
 
@@ -85,7 +85,7 @@ async function read(field, id) {
             imagem: true,
             id: true,
             species: true,
-            description: true
+            description: true,
         }
     });
 

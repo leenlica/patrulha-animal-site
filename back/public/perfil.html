@@ -78,6 +78,14 @@
             <button  id="logout-button" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </div>
     </div>
+    
+    <button id="add-pet-btn" onclick="window.location.href='addpet.html'">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="perfil.js"> </script>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -93,7 +101,7 @@
                 localStorage.removeItem('authenticated');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userEmail');
-                window.location.href = './signin.html';
+                window.location.href = 'signin.html';
             });
         });
 </script>

@@ -1,9 +1,12 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { z } from 'zod';
 import prisma from './database/database.js';
 
 import { isAuthenticated } from './middleware/auth.js';
+import { validate } from './middleware/validate.js';
+
 
 import Pets from './models/Pets.js';
 import curtida from './models/curtida.js'; 
@@ -18,11 +21,32 @@ class HTTPError extends Error {
 
 const router = express.Router();
 
+// Schemas de validação
+const userSchema = z.object({
+    nome: z.string().min(1, 'Nome é obrigatório'),
+    email: z.string().email('Email inválido'),
+    password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+    confirmationPassword: z.string().min(6, 'A confirmação da senha deve ter pelo menos 6 caracteres'),
+});
 
-//rota para criar user
+const loginSchema = z.object({
+    email: z.string().email('Email inválido'),
+    password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+});
+
+const petSchema = z.object({
+    name: z.string().optional(),
+    imagem: z.string().url().optional(),
+    age: z.number().min(0, 'Idade deve ser um número positivo'),
+    description: z.string().min(1, 'Descrição é obrigatória'),
+    species: z.string().min(1, 'Espécie é obrigatória'),
+});
+
+
+// Rota para criar user
 router.post('/users', async (req, res) => {
     try {
-        const { nome, email, password, confirmationPassword } = req.body;
+        const { nome, email, password, confirmationPassword } = userSchema.parse(req.body);
 
         if (password !== confirmationPassword) {
             return res.status(400).json({ error: 'Passwords do not match' });
@@ -30,7 +54,7 @@ router.post('/users', async (req, res) => {
 
         const newUser = await User.create(nome, email, password);
 
-        delete newUser.password; 
+        delete newUser.password;
         res.status(201).json(newUser);
     } catch (error) {
         console.error('Error creating user:', error);
@@ -41,14 +65,14 @@ router.post('/users', async (req, res) => {
 // Rota de login
 router.post('/signin', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = loginSchema.parse(req.body);
 
         const user = await prisma.user.findUnique({
             where: { email: email },
         });
 
         if (!user) {
-            return res.status(401).json({ auth: false, message: 'User not found' });
+            return res.status(401).json({ auth: false, message: 'User  not found' });
         }
 
         const match = await bcrypt.compare(password, user.password);
@@ -81,7 +105,7 @@ router.post('/signin', async (req, res) => {
 
 router.get('/users/me',  isAuthenticated, async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.id_usuario;
 
         const user = await User.readById(userId);
 
@@ -142,10 +166,15 @@ router.delete('/users/:id', isAuthenticated, async (req, res) => {
 // Rota para obter todos os pets 
 
 router.get('/pets', async (req, res) => {
-    const pets = await Pets.read();
-
-    res.json(pets);
+    try {
+        const pets = await Pets.read();
+        res.json(pets);
+    } catch (error) {
+        console.error('Erro ao buscar pets:', error);
+        res.status(500).json({ error: 'Erro ao buscar pets.' });
+    }
 });
+
 
 // Rota para obter um pet específico por ID 
 router.get('/pets/:id', isAuthenticated, async (req, res) => {
@@ -157,16 +186,16 @@ router.get('/pets/:id', isAuthenticated, async (req, res) => {
     res.json(pet);
 });
 
-// Rota para adicionar um novo pet 
-router.post('/pets', isAuthenticated, async (req, res) => {
-    const { name, imagem, age, description, species } = req.body;
 
+// Rota para adicionar um novo pet 
+router.post('/pets', isAuthenticated, validate(petSchema), async (req, res) => {
     try {
-        const newPet = await Pets.create({ name, imagem, age, description, species });
+        const pet = req.body;
+        const newPet = await Pets.create(pet);
         res.status(201).json(newPet);
     } catch (error) {
-        console.error('Erro ao adicionar pet:', error);
-        res.status(500).json({ error: 'Erro ao adicionar pet.' });
+        console.error('Error creating pet:', error);
+        res.status(500).json({ error: 'Unable to create pet' });
     }
 });
 

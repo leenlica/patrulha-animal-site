@@ -81,3 +81,9 @@
     padding-right: 20px;
     padding-top: 4px;
 }
+
+.error-message {
+    font-size: 0.9em;
+    color: red;
+    margin-top: 5px;
+}
