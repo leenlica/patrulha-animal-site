@@ -1,0 +1,179 @@
+@host = http://localhost:3000
+@token = {{signin.response.body.$.token}}
+ 
+### Create User
+
+# @name createdUser
+POST {{host}}/users
+Content-Type: application/json
+
+{  
+"nome": "exemploUsuario",
+"email": "exemplo@gmail.com",
+"password": "senhaSegura",
+"confirmationPassword": "senhaSegura"
+}
+
+
+### Create User
+
+# @name createdUser
+POST {{host}}/users
+Content-Type: application/json
+
+{  
+"nome": "",
+"email": "exemplo@gmail.com",
+"password": "senhaSegura",
+"confirmationPassword": "senhaSegura"
+}
+
+### Signin 401
+ 
+# @name signin
+POST {{host}}/signin
+Content-Type: application/json
+ 
+{
+  "email": "leen@gmail.com",
+  "password": "1234"
+}
+
+### Signin Ok
+ 
+# @name signin
+POST {{host}}/signin
+Content-Type: application/json
+ 
+{
+  "email": "morango@gmail.com",
+  "password": "123"
+}
+
+### Read User (whitout token)
+ 
+GET {{host}}/users/me
+
+### Read User (with token)
+ 
+GET {{host}}/users/me
+Authorization: bearer {{token}}
+
+### request get para listar todos os animais
+GET http://localhost:3000/pets
+ 
+
+### request get para obter like
+GET http://localhost:3000/like
+Authorization: bearer {{token}} 
+
+### read users
+GET http://localhost:3000/users
+Authorization: bearer {{token}}
+
+
+### Delete User
+DELETE {{host}}/users/4
+Authorization: bearer {{token}} 
+
+###
+POST http://localhost:3000/users
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{
+  "nome": "bicho",
+  "email": "hellen@gmail.com",
+  "password": "123"
+}
+
+### Update User
+PUT http://localhost:3000/users/5
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{
+  "nome": "bixano",
+  "password": "novaSenha"
+}
+
+
+### request get (pelo id) para encontrar um animal pelo id
+GET http://localhost:3000/pets/1
+Authorization: bearer {{token}} 
+// /1 é o id 
+
+### request post para adicionar um novo animal
+POST http://localhost:3000/pets
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{
+"name":"Fido",
+"age": 3,
+"description":"Um cachorro muito fofo",
+"species":"Cachorro"
+}
+
+### request put (pelo id) para atualizar um animal e seu status de adoção
+PUT http://localhost:3000/pets/10
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{
+"name":"Fido",
+"age": "4 anos"
+}
+
+### request delete (pelo id) para deletar um animal pelo id
+DELETE http://localhost:3000/pets/1
+Authorization: bearer {{token}} 
+
+### request post para adicionar pet
+POST http://localhost:3000/pets
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{
+"name":"Max",
+"age": 5,
+"description":"amigavel",
+"species":"Cachorro"
+}
+
+### request post para adicionar pet
+
+POST http://localhost:3000/pets
+Authorization: bearer {{token}} 
+Content-Type: application/json
+{"name":"Luna",
+"age":"1 ano",
+"species":"Gato",
+"breed":"Persa",
+"description":"Um gato muito curioso"}
+
+POST http://localhost:3000/pets 
+Authorization: bearer {{token}} 
+Content-Type: application/json
+
+{"name":"Rocky",
+"age": "3 anos",
+"species":"Cachorro",
+"breed":"Bulldog",
+"description":"Um cachorro muito forte"}'
+
+### request get para obter/ver todos os animais pelo id
+GET  http://localhost:3000/pets/1
+Authorization: bearer {{token}} 
+GET http://localhost:3000/pets/2
+Authorization: bearer {{token}} 
+GET http://localhost:3000/pets/3
+Authorization: bearer {{token}} 
+
+### request para deletar vários animais
+DELETE http://localhost:3000/pets/1
+Authorization: bearer {{token}} 
+DELETE http://localhost:3000/pets/2
+Authorization: bearer {{token}} 
+DELETE http://localhost:3000/pets/3
+Authorization: bearer {{token}}

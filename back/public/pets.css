@@ -1,0 +1,91 @@
+.section-pets{
+    margin-top: 20px;
+}
+
+#titulo{
+    font-size: 25px;
+    font-style: oblique;
+}
+ 
+
+#pets-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 10px;
+ }
+
+ .card{
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 3px 3px 3px 3px #00000040;
+    border-radius: 8px;
+    width: 22%;
+    text-align: center;
+    box-sizing: border-box;
+
+ }
+
+ .card img{
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center; 
+    display: block;
+
+ }
+ .card h3{
+    margin-top: 8px;
+ }
+
+ .card p{
+    margin-top: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: justify;
+    flex: 1;
+ }
+
+
+ .botao {
+     padding: 8px 16px;
+     background-color: #da5700;
+     color: white;
+     text-align: center;
+     font-size: 16px;
+     cursor: pointer;
+     border: none;
+     border-radius: 8px;
+     transition: background-color 0.3s;
+ }
+
+ .botao:hover {
+     background-color: #eea048;
+ }
+
+.like-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.like-button:hover {
+    color: red;
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 44%; /* Ajusta para caber dois cards por linha com espaçamento */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        width: 100%; /* Ajusta para caber um card por linha */
+    }
+}

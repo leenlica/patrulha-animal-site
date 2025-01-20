@@ -1,0 +1,76 @@
+{
+    "pets": [
+        {
+            "id": 1,
+            "name": "Black",
+            "imagem": "black.jpg",
+            "species": "Cachorro",
+            "age": "2 anos",
+            "description": "Black é um Labrador amigável e enérgico que adora brincar e passear.  Ele é bom em fazer amizade com outros cães e crianças. Um ótimo companheiro para fazer parte de sua família."
+        },
+        {
+            "id": 2,
+            "name": "Nina",
+            "imagem": "nina.jpg",
+            "species": "Gato",
+            "age": "7 meses",
+            "description": "Nina é uma linda gatinha siamês com impressionantes olhos azuis.  Ela é independente e gosta de explorar o ambiente, mas também adora um colo quentinho para descansar. Uma parceria incrível para ter em seu lar."
+        },
+        {
+            "id": 3,
+            "name": "Daisy",
+            "imagem": "daisy.jpg",
+            "species": "Cachorro",
+            "age": "9 meses",
+            "description": " Daisy é uma doce e gentil cadelinha que adora ser abraçada e receber carinho. Ela é boa com outros animais e seria um ótimo animal de estimação para uma família com crianças."
+        },
+        {
+            "id": 4,
+            "name": "Banguela",
+            "imagem": "banguela.jpg",
+            "species": "Gato",
+            "age": "5 meses",
+            "description": " Banguela adora receber carinho, principalmente na barriga, e socializar com outros gatos, sendo um ótimo animal de estimação para uma família que já tenha ou não um animal."
+        },
+        {
+            "id": 5,
+            "name": "Charel",
+            "imagem": "charel.jpg",
+            "species": "Cachorro",
+            "age": "1 ano",
+            "description": " Charel ama passeios e se aventurar, assim como um longo descanso em ambientes aconchegantes . Sendo um excelente  companheiro para todas as ocasiões "
+        },
+        {
+            "id": 6,
+            "name": null,
+            "imagem": "semnome.jpg",
+            "species": "Gata",
+            "age": "3 semanas ",
+            "description": " É uma gata que ama brincar, é curiosa e adora conhecer novos animais. Uma companheira perfeita para alegrar mais ainda a sua casa"
+        },
+        {
+            "id": 7,
+            "name": "Belinha",
+            "imagem": "belinha.jpg",
+            "species": "Cachorra",
+            "age": "2 anos",
+            "description": " Belinha é uma cachorra muito  esperta, agitada, carinhosa e leal para quem te dá amor. Transformando a vida de que à adotar mais leve e feliz, tendo uma companheira e afeto incondicional "
+        },
+        {
+            "id": 8,
+            "name": "Leon",
+            "imagem": "leon.jpg",
+            "species": "Gato",
+            "age": "4 anos",
+            "description": "Leon é um gato ágil, aventureiro, ama um carinho e fazer amizade com outros gatos e pessoas. No qual, com certeza, irá transformar a vida do futuro tutor, para melhor "
+        },
+        {
+            "id": 9,
+            "name": "Estrela",
+            "imagem": "estela.jpg",
+            "species": "Gato",
+            "age": "1 ano",
+            "description": " Estrela é uma linda gata, alegre e amorosa. Seus olhos transbordam sua energia apaixonante. Você e sua família vão amar ter um pacote de alegria em casa."
+        }
+    ]
+}
