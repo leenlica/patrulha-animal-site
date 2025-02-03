@@ -5,14 +5,18 @@ const domain = 'http://localhost:3000';
 async function create(resource, data, auth = true) {
     const url = `${domain}${resource}`;
 
+    // Detecta automaticamente se o `data` é `FormData`
+    const isFormData = data instanceof FormData;
+
     const config = {
         method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
+        body: isFormData ? data : JSON.stringify(data),
+        headers: {},
     };
+
+    if (!isFormData) {
+        config.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    }
 
     if (auth) {
         config.headers.Authorization = `Bearer ${Auth.getToken()}`;

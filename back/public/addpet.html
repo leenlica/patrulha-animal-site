@@ -116,7 +116,7 @@
 
     <div class="form-container">
         <h1 class="text-center mb-4" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color:#053c8d">Adicionar Pet</h1>
-        <form id="add-pet-form">
+        <form id="add-pet-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Nome do Pet:</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Nome do pet">
@@ -131,6 +131,7 @@
                 <label for="birthdate">Data de Nascimento:</label>
                 <input type="date" id="birthdate" name="birthdate" class="form-control">
             </div>
+            <input type="hidden" id="age" name="age">
             
 
             <div class="form-group">
@@ -156,19 +157,32 @@
     <script type="module" src="addpet.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
     <script>
-        document.getElementById('birthdate').addEventListener('change', function () {
-    const birthdate = this.value; // Obtém a data de nascimento do campo
+      document.getElementById('birthdate').addEventListener('change', function () {
+    const birthdate = this.value;
     if (birthdate) {
-        const now = dayjs(); // Data atual
-        const birthDateObj = dayjs(birthdate); // Converte a string para um objeto Day.js
-        const age = now.diff(birthDateObj, 'year'); // Calcula a diferença em anos
-        document.getElementById('age').value = age; // Atualiza o campo de idade
+        const now = dayjs();
+        const birthDateObj = dayjs(birthdate);
+
+        const years = now.diff(birthDateObj, 'year');
+        const months = now.diff(birthDateObj, 'month') % 12;
+
+        // Formata o valor de idade para "X anos" ou "X meses"
+        let age;
+        if (years > 0) {
+            age = `${years} ${years === 1 ? 'ano' : 'anos'}`;
+            if (months > 0) age += ` e ${months} ${months === 1 ? 'mês' : 'meses'}`;
+        } else {
+            age = `${months} ${months === 1 ? 'mês' : 'meses'}`;
+        }
+
+        // Atualiza o campo oculto com a idade formatada
+        document.getElementById('age').value = age;
     } else {
-        document.getElementById('age').value = ''; // Limpa o campo de idade se a data for removida
+        document.getElementById('age').value = '';
     }
 });
     </script>
-
+    
 </body>
 
 </html>

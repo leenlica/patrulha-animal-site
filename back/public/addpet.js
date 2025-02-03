@@ -23,10 +23,17 @@ async function handleSubmit(event) {
     }
 
     // Validação dos campos
-   
-    const ageInput = document.getElementById("birthdate")
-    if (!ageInput.value.trim()) {
-        showError(ageInput, "A idade do pet é obrigatória.");
+
+    // Validação da data de nascimento
+    const birthdateInput = document.getElementById("birthdate");
+    const ageInput = document.getElementById("age");
+
+    // Verifica se uma data de nascimento foi informada
+    if (!birthdateInput.value.trim()) {
+        showError(birthdateInput, "A data de nascimento do pet é obrigatória.");
+        isValid = false;
+    } else if (!ageInput.value.trim()) {
+        showError(birthdateInput, "A idade do pet deve ser válida.");
         isValid = false;
     }
 
@@ -45,13 +52,26 @@ async function handleSubmit(event) {
     // Interrompe se a validação falhar
     if (!isValid) return;
 
+    // Adiciona o usuário logado ao objeto de dados do pet
+    console.log(localStorage.getItem('userId')) 
+    const userId = localStorage.getItem('userId');  // Supondo que o ID do usuário esteja armazenado com a chave 'userId'
+    Pets.user_id = userId; 
+    if (!userId) {
+        alert("Você precisa estar logado para adicionar um pet.");
+        return;
+    }
+
+    if (!userId) {
+        alert("Você precisa estar logado para adicionar um pet.");
+        return;
+    }
+
     // Continua se os campos forem válidos
-    const Pets = Object.fromEntries(new FormData(form));
-
-    console.log(Pets);
-
+    const formData = new FormData(form);
+    formData.append("user_id", userId);
+    
     try {
-        const response = await API.create('/pets', Pets);
+        const response = await API.create('/pets', formData);
         if (response) {
             location.href = '/back/public/perfil.html';
         } else {

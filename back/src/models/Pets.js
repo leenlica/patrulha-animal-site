@@ -1,9 +1,9 @@
 import prisma from '../database/database.js';
 
 // create
-async function create({ name, imagem, age, description, species }) {
+async function create({ name, imagem, age, description, species, user_id }) {
     try {
-        console.log('Dados recebidos para criação:', { name, imagem, age, description, species });
+        console.log('Dados recebidos para criação:', { name, imagem, age, description, species, user_id });
         if (!age || !description || !species) {
             throw new Error('Os campos age, description e species são obrigatórios.');
         }
@@ -14,7 +14,8 @@ async function create({ name, imagem, age, description, species }) {
                 imagem: imagem || null,
                 age: age,
                 description: description,
-                species: species
+                species: species,
+                user_id: user_id
             },
         });
 

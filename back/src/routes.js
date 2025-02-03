@@ -7,10 +7,16 @@ import prisma from './database/database.js';
 import { isAuthenticated } from './middleware/auth.js';
 import { validate } from './middleware/validate.js';
 
+import SendMail from './services/SendMail.js';
+
+import multer from 'multer';
+import uploadConfig from './config/multer.js';
+import uploadPetConfig from './config/multer.js';
 
 import Pets from './models/Pets.js';
 import curtida from './models/curtida.js'; 
 import User from './models/User.js';
+import Image from './models/Image.js';
 
 class HTTPError extends Error {
     constructor(message, code) {
@@ -58,11 +64,15 @@ router.post('/users', async (req, res) => {
         const newUser = await User.create(nome, email, password);
 
         delete newUser.password;
+
         res.status(201).json(newUser);
+
+        await SendMail.createNewUser(newUser.email);
+
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Unable to create user' });
-    }
+    }   
 });
 
 // Rota de login
@@ -111,6 +121,7 @@ router.get('/users/me',  isAuthenticated, async (req, res) => {
         const userId = req.id_usuario;
 
         const user = await User.readById(userId);
+        console.log('User:', user);  
 
         delete user.password;
 
@@ -192,14 +203,43 @@ router.get('/pets/:id', isAuthenticated, async (req, res) => {
 // Rota para adicionar um novo pet 
 router.post('/pets', isAuthenticated, async (req, res) => {
     const { name, imagem, age, description, species } = req.body;
+    const userId = req.userId; // Acessa o userId do middleware
+
     try {
-        const newPet = await Pets.create({ name, imagem, age, description, species });      
+        // Criação do pet
+        const newPet = await Pets.create({
+            data: {
+                name,
+                imagem,
+                age,
+                description,
+                species,
+                user_id: userId, // Atribuindo user_id ao pet
+            }
+        });
+
+
+        // Buscar o e-mail do usuário associado ao pet
+        const user = await prisma.user.findUnique({
+            where: { id_usuario: userId },
+            select: { email: true },
+        });
+
+        if (user && user.email) {
+            // Enviar e-mail ao usuário (associado ao pet)
+            await SendMail.createNewPet(user.email);
+        } else {
+            console.error('E-mail do usuário não encontrado.');
+        }
+
+        // Retornar a resposta com o pet criado
         res.status(201).json(newPet);
     } catch (error) {
         console.error('Erro ao adicionar pet:', error);
         res.status(500).json({ error: 'Erro ao adicionar pet.' });
     }
 });
+
 
 // Rota para atualizar um pet existente pelo id
 router.put('/pets/:id', isAuthenticated, async (req, res) => {
@@ -241,6 +281,54 @@ router.delete('/pets/:id', isAuthenticated, async (req, res) => {
     const deletedPet = await Pets.splice(petIndex, 1);
     res.json(deletedPet[0]);
 });
+
+
+router.post('/users/image', isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
+    try {
+      const userId = req.userId;
+  
+      if (req.file) {
+        const path = `/imgs/profile/${req.file.filename}`;
+  
+        // Cria o registro da imagem no banco de dados
+        await Image.create({ userId, path });
+  
+        res.status(201).json({ path });  // Retorna a URL da imagem para atualizar no frontend
+      } else {
+        throw new Error('Imagem não encontrada.');
+      }
+    } catch (error) {
+      throw new HTTPError('Unable to create image', 400);
+    }
+  });
+  
+   
+  router.put('/users/image', isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
+    try {
+      const userId = req.userId;
+  
+      if (req.file) {
+        const path = `/imgs/profile/${req.file.filename}`;
+  
+        // Verifica se existe uma imagem anterior e a remove
+        const oldImage = await Image.findOne({ where: { userId } });
+        if (oldImage) {
+          // Remover o arquivo antigo do sistema
+          fs.unlinkSync(path.join(__dirname, 'public', oldImage.path));
+        }
+  
+        // Atualiza a imagem no banco de dados
+        await Image.update({ path }, { where: { userId } });
+  
+        res.json({ path });  // Retorna a URL da nova imagem para o frontend
+      } else {
+        throw new Error('Imagem não encontrada.');
+      }
+    } catch (error) {
+      throw new HTTPError('Unable to update image', 400);
+    }
+  });
+  
 
 // Rota para adicionar uma curtida
 router.post('/like', async (req, res) => {

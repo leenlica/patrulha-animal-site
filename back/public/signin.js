@@ -56,6 +56,7 @@ async function handleSubmit(event) {
             localStorage.setItem('authenticated', 'true');
             localStorage.setItem('userName', userData.nome);
             localStorage.setItem('userEmail', userData.email);
+            localStorage.setItem('userId', userData.id_usuario); 
 
             // Redirecionar para a página de perfil
             window.location.href = './perfil.html';

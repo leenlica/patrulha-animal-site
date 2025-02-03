@@ -3,7 +3,7 @@ import prisma from '../database/database.js';
 
 const saltRounds = Number(process.env.BCRYPT_SALT);
 
-async function create(nome, email, password) {
+async function create(nome, email, password, imagePath = null) {
     if (!nome || !email || !password) {
         throw new Error('Missing required fields');
     }
@@ -15,7 +15,12 @@ async function create(nome, email, password) {
             nome,
             email,
             password: hash,
+            image: imagePath ? { create: { path: imagePath } } : undefined,
         },
+        include: {
+            image: true,
+        },
+    
     });
 
     return createdUser;
@@ -34,6 +39,11 @@ async function readById(userId) {
             id_usuario: true,
             nome: true,
             email: true,
+            image: {
+                select: {
+                    path: true
+                }
+            }  
         },
     });
 
@@ -51,6 +61,11 @@ async function read() {
             id_usuario: true,
             nome: true,
             email: true,
+            image: {
+                select: {
+                    path: true
+                }
+            }  
         },
     });
 }

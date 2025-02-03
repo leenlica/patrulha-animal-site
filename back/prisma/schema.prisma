@@ -29,6 +29,9 @@ model Pets {
   age         String
   description String
   species     String
+  user_id     Int?    
+  user        user?   @relation(fields: [user_id], references: [id_usuario])
+  image       Image?
 
   Curtida Curtida[]
 
@@ -54,6 +57,8 @@ model user {
   endereco    endereco?  @relation(fields: [endereco_id], references: [id_endereco])
   Curtida     Curtida[]
   adocao      adocao[]
+  pets        Pets[]
+  image       Image?
 }
 
 model adocao {
@@ -64,3 +69,11 @@ model adocao {
   user       user @relation(fields: [usuario_id], references: [id_usuario])
 }
 
+model Image {
+  id    Int    @id @default(autoincrement())
+  path      String
+  user_id   Int   @unique
+  pet_id    Int   @unique
+  user      user  @relation(fields: [user_id], references: [id_usuario])
+  pets      Pets  @relation(fields: [pet_id], references: [id])
+}
