@@ -23,7 +23,7 @@ async function handleSubmit(event) {
 
         if (response && response.email) {
             // Se o e-mail foi criado com sucesso, redireciona para a página de login
-            location.href = '/back/public/signin.html';
+            location.href = './signin.html';
         } else if (response.error && response.error === 'Email already exists') {
             // Se o e-mail já existe, exibe a mensagem de erro
             const emailField = form.querySelector('input[name="email"]');

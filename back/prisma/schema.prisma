@@ -31,7 +31,6 @@ model Pets {
   species     String
   user_id     Int?    
   user        user?   @relation(fields: [user_id], references: [id_usuario])
-  image       Image?
 
   Curtida Curtida[]
 
@@ -58,7 +57,7 @@ model user {
   Curtida     Curtida[]
   adocao      adocao[]
   pets        Pets[]
-  image       Image?
+  imagem       String?
 }
 
 model adocao {
@@ -67,13 +66,4 @@ model adocao {
   pet_id     Int     @unique
   pet        Pets    @relation(fields: [pet_id], references: [id])
   user       user @relation(fields: [usuario_id], references: [id_usuario])
-}
-
-model Image {
-  id    Int    @id @default(autoincrement())
-  path      String
-  user_id   Int   @unique
-  pet_id    Int   @unique
-  user      user  @relation(fields: [user_id], references: [id_usuario])
-  pets      Pets  @relation(fields: [pet_id], references: [id])
 }

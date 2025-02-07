@@ -1,52 +1,32 @@
-import API from './api.js';
-import Auth from '../src/middleware/auth.js' ;
+const handleChangeImage = async (e) => {
+  e.preventDefault();
+  const file = document.getElementById("imageProfile").files[0];
+  const token = localStorage.getItem('token');
 
-const form = document.querySelector('form');
- 
-let formMethod;
- 
-async function loadProfile() {
-  const user = await API.read('/users/me');
- 
-  let image;
- 
-  if (user.image) {
-    image = user.image.path;
- 
-    formMethod = 'put';
-  } else {
-    image = '/img/profile/avatar.png';
- 
-    formMethod = 'post';
-  }
- 
-  document.querySelector('#user-avatar').src = image;
- 
-  document.querySelector('#dropdown-avatar').src = image;
- 
-  document.querySelector('#userId').value = user.id;
-}
- 
-form.onsubmit = async (event) => {
-  event.preventDefault();
- 
-  const image = new FormData(form);
- 
-  let newImage;
- 
-  if (formMethod === 'post') {
-    newImage = await API.create('/users/image', image, true, true);
-  } else if (formMethod === 'put') {
-    newImage = await API.update('/users/image', image, true);
-  }
- 
-  document.querySelector('#user-avatar').src = newImage.path;
- 
-  document.querySelector('#dropdown-avatar').src = newImage.path;
- 
-  form.reset();
+  const sendData = new FormData();
+  sendData.append("image", file);
+
+  const response = await fetch("http://localhost:3000/users/image", {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    },
+    body: sendData
+  });
+  const data = await response.json();
+  const user = JSON.parse(localStorage.getItem('user'))
+  user.imagem = data.path
+  localStorage.setItem("user", JSON.stringify(user))
+
+  console.log(data);
 };
- 
-if (Auth.isAuthenticated()) {
-  loadProfile();
-}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById("formImage");
+  form.addEventListener("submit", handleChangeImage);
+
+  const userImage = document.getElementById("user-avatar");
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user.imagem) return;
+  userImage.src = user.imagem;
+});

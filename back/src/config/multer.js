@@ -2,7 +2,7 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import multer from 'multer';
  
-const uploadPath = path.resolve('public', 'imgs', 'profile');
+const uploadPath = path.resolve('public', 'img', 'profile');
  
 const storageTypes = {
   local: multer.diskStorage({
@@ -10,7 +10,7 @@ const storageTypes = {
       cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-      file.key = `${randomBytes(16).toString('hex')}-${file.originalname}`;
+      file.key = `profile${randomBytes(16).toString('hex')}-${file.originalname}`;
       cb(null, file.key);
     },
   }),
@@ -20,7 +20,7 @@ const config = {
   dest: uploadPath,
   storage: storageTypes[process.env.STORAGE_TYPE],
   limits: {
-    fileSize: 2 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
     const allowedMimes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -35,6 +35,3 @@ const config = {
  
 
 export default config;
-
-
- 

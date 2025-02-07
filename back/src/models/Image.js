@@ -1,37 +1,14 @@
 import prisma from '../database/database.js';
 
-async function create({ userId, path }) {
-    const newImage = await prisma.image.create({
-    data: {
-        path,
-        user: {
-            connect: {
-                id: userId,
-            },
-        },
-    },
-    });
-    return newImage;
-}
-
-
-async function update({ userId, path }) {
-    const newImage = await prisma.image.update({
+async function changeUserImage(imagePath, userId) {
+    return await prisma.user.update({
       where: {
-        userId,
+        id_usuario: userId
       },
       data: {
-        path,
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-    });
-   
-    return newImage;
-  }
-   
+        imagem: imagePath
+      }
+    })
+}
 
-export default { create, update };
+export default { changeUserImage };

@@ -15,12 +15,9 @@ async function create(nome, email, password, imagePath = null) {
             nome,
             email,
             password: hash,
-            image: imagePath ? { create: { path: imagePath } } : undefined,
+            imagem: imagePath ? { create: { path: imagePath } } : null,
         },
-        include: {
-            image: true,
-        },
-    
+
     });
 
     return createdUser;

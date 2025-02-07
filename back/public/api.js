@@ -1,3 +1,4 @@
+
 import Auth from './auth.js';
 
 const domain = 'http://localhost:3000';

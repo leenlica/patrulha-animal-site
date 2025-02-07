@@ -42,7 +42,7 @@
                             <a class="nav-link  mx-lg-2" href="perfil.html">Perfil</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav"  id="auth-bar">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle  mx-lg-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false" style="padding-right: 30px;">
@@ -128,20 +128,7 @@
     </script>
     <script src="filtro.js">
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const isAuthenticated = localStorage.getItem('authenticated'); // Verifica se o usuário está autenticado
-            const perfilNavItem = document.getElementById('nav-perfil'); // Seleciona o link do Perfil no navbar
-
-            if (!isAuthenticated) {
-                // Se o usuário não estiver autenticado, oculte o link do Perfil
-                perfilNavItem.style.display = 'none';
-            } else {
-                // Se estiver autenticado, exiba o link do Perfil
-                perfilNavItem.style.display = 'block';
-            }
-        });
-    </script>
+    <script src="./authNavbar.js"></script>
     <script type="module" src="auth.js"></script>
 </body>
 

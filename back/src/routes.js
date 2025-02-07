@@ -1,3 +1,4 @@
+
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -96,19 +97,17 @@ router.post('/signin', async (req, res) => {
 
         // Gerar um token JWT
         const token = jwt.sign(
-            { userId: user.id_usuario },
+            { id_usuario: user.id_usuario },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
-
+        
+        const {password: _, ...userData} = user;
         // Retornar token e dados do usuário
         return res.json({
             auth: true,
             token,
-            user: {
-                nome: user.nome,
-                email: user.email,
-            },
+            user: userData
         });
     } catch (error) {
         console.error('Erro durante o login:', error);
@@ -142,24 +141,6 @@ router.get('/users', async (req, res) => {
     }
 });
 
-// Rota para atualizar informações de um usuário existente pelo ID
-router.put('/users/:id', isAuthenticated, async (req, res) => {
-    try {
-        const user = req.body;
-        const { id } = req.params;
-
-        delete user.password;
-
-        const updatedUser = await User.update({ ...user, id });
-
-        delete updatedUser.password;
-
-        return res.json(updatedUser);
-    } catch (error) {
-        console.error('Erro ao atualizar usuário:', error);
-        throw new HTTPError('Unable to update user', 400);
-    }
-});
 // Rota para deletar um usuário pelo ID
 router.delete('/users/:id', isAuthenticated, async (req, res) => {
     try {
@@ -281,46 +262,19 @@ router.delete('/pets/:id', isAuthenticated, async (req, res) => {
     const deletedPet = await Pets.splice(petIndex, 1);
     res.json(deletedPet[0]);
 });
-
-
-router.post('/users/image', isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
-    try {
-      const userId = req.userId;
-  
-      if (req.file) {
-        const path = `/imgs/profile/${req.file.filename}`;
-  
-        // Cria o registro da imagem no banco de dados
-        await Image.create({ userId, path });
-  
-        res.status(201).json({ path });  // Retorna a URL da imagem para atualizar no frontend
-      } else {
-        throw new Error('Imagem não encontrada.');
-      }
-    } catch (error) {
-      throw new HTTPError('Unable to create image', 400);
-    }
-  });
-  
    
   router.put('/users/image', isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
     try {
       const userId = req.userId;
   
       if (req.file) {
-        const path = `/imgs/profile/${req.file.filename}`;
-  
-        // Verifica se existe uma imagem anterior e a remove
-        const oldImage = await Image.findOne({ where: { userId } });
-        if (oldImage) {
-          // Remover o arquivo antigo do sistema
-          fs.unlinkSync(path.join(__dirname, 'public', oldImage.path));
-        }
+        const path = `./img/profile/${req.file.filename}`;
   
         // Atualiza a imagem no banco de dados
-        await Image.update({ path }, { where: { userId } });
+        await Image.changeUserImage(path, userId);
   
         res.json({ path });  // Retorna a URL da nova imagem para o frontend
+        //res.json({ message: 'Imagem atualizada com sucesso.' });
       } else {
         throw new Error('Imagem não encontrada.');
       }
@@ -345,6 +299,25 @@ router.post('/like', async (req, res) => {
     } catch (error) {
         console.error('Erro ao adicionar curtida:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
+// Rota para atualizar informações de um usuário existente pelo ID
+router.put('/users/:id', isAuthenticated, async (req, res) => {
+    try {
+        const user = req.body;
+        const { id } = req.params;
+
+        delete user.password;
+
+        const updatedUser = await User.update({ ...user, id });
+
+        delete updatedUser.password;
+
+        return res.json(updatedUser);
+    } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
+        throw new HTTPError('Unable to update user', 400);
     }
 });
 
