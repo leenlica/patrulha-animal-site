@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -117,6 +118,9 @@
     <div class="form-container">
         <h1 class="text-center mb-4" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color:#053c8d">Adicionar Pet</h1>
         <form id="add-pet-form" enctype="multipart/form-data">
+            <div class="alert alert-danger" role="alert" id="error-message" style="display: none;">
+            </div>
+            
             <div class="form-group">
                 <label for="name">Nome do Pet:</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Nome do pet">
@@ -124,7 +128,7 @@
 
             <div class="form-group">
                 <label for="imagem">Imagem:</label>
-                <input type="file" id="imagem" name="imagem" class="form-control">
+                <input type="file" id="imagem" name="image" class="form-control">
             </div>
 
             <div class="form-group">
@@ -154,7 +158,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="addpet.js"> </script>
+    <script src="addpet.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
     <script>
       document.getElementById('birthdate').addEventListener('change', function () {

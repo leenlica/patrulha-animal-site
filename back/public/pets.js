@@ -1,3 +1,4 @@
+
 import API from './api.js';
 
 async function carregar() {
@@ -10,7 +11,12 @@ async function carregar() {
             card.classList.add("card")
 
             const img = document.createElement("img")
-            img.src = 'http://localhost:3000/img/' + pet.imagem
+
+            if(pet.imagem[0] === "."){
+                img.src =  pet.imagem
+            }else{
+                img.src = 'http://localhost:3000/img/' + pet.imagem
+            }
             img.alt = pet.name
 
             const titulo = document.createElement("h3")

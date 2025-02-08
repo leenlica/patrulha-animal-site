@@ -30,11 +30,11 @@ async function createNewPet(to) {
     const transporter = nodemailer.createTransport(config);
  
     const info = await transporter.sendMail({
-      from: 'noreplay@email.com',
+      from: 'patrulhanimal@email.com',
       to,
       subject: 'Pet adiciondo a Patrulha Animal',
       text: `Pet adiciondo com sucesso.\n\nAcesse o aplicativo para ver seus pets`,
-      html: `<h1>Conta criada com sucesso.</h1><p>Acesse o aplicativo para ver seus pets.</p>`,
+      html: `<h1>Pet adiciondo com sucesso.</h1><p>Obrigad@ por contribuir para a adoção responsável!<p><p>Agora você pode acompanhar seu pet em nosso site!</p>`
     });
  
     if (process.env.NODE_ENV === 'development') {
