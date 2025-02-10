@@ -189,8 +189,8 @@ router.post(
 	multer(uploadConfig).single("image"),
 	async (req, res) => {
 		const { name, age, description, species } = req.body;
-		const userId = req.userId; // Acessa o userId do middleware
-		const imagem = `./img/profile/${req.file.filename}`;
+		const userId = req.userId; 
+		const imagem = `./img/${req.file.filename}`;
 		console.log(req.body);
 		console.log(imagem);
 
@@ -202,7 +202,7 @@ router.post(
 				age,
 				description,
 				species,
-				user_id: userId, // Atribuindo user_id ao pet
+				user_id: userId, 
 			});
 
 			// Buscar o e-mail do usuário associado ao pet
