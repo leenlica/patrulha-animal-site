@@ -31,3 +31,11 @@ server.use(router);
 server.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+    server.listen(3000, () => {
+        console.log('Server is running on port 3000');
+    });
+}
+
+export default server;

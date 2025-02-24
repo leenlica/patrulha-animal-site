@@ -38,10 +38,15 @@ const userSchema = z.object({
 });
 
 const loginSchema = z.object({
-	email: z.string().email("Email inválido"),
-	password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-});
-
+	email: z.string({ required_error: "O email é obrigatório" })
+	  .min(1, "O email é obrigatório")
+	  .email("Email inválido"),
+	
+	password: z.string({ required_error: "A senha é obrigatória" })
+	  .min(1, "A senha é obrigatória")
+	  .min(6, "A senha deve ter pelo menos 6 caracteres"),
+  });
+  
 /*
 const petSchema = z.object({
     name: z.string().optional(),
@@ -85,20 +90,15 @@ router.post("/signin", async (req, res) => {
 		});
 
 		if (!user) {
-			return res
-				.status(401)
-				.json({ auth: false, message: "User  not found" });
+			return res.status(401).json({ auth: false, message: "User not found" });
 		}
 
 		const match = await bcrypt.compare(password, user.password);
 
 		if (!match) {
-			return res
-				.status(401)
-				.json({ auth: false, message: "Invalid password" });
+			return res.status(401).json({ auth: false, message: "Invalid password" });
 		}
-
-		// Gerar um token JWT
+		
 		const token = jwt.sign(
 			{ id_usuario: user.id_usuario },
 			process.env.JWT_SECRET,
@@ -106,15 +106,22 @@ router.post("/signin", async (req, res) => {
 		);
 
 		const { password: _, ...userData } = user;
-		// Retornar token e dados do usuário
+
 		return res.json({
 			auth: true,
 			token,
 			user: userData,
 		});
 	} catch (error) {
+		if (error instanceof z.ZodError) {
+			// Retorna todas as mensagens corretamente formatadas
+			return res.status(400).json({
+				auth: false,
+				message: error.errors.map(e => e.message).join(", "),
+			});
+		}
 		console.error("Erro durante o login:", error);
-		res.status(500).json({ auth: false, message: "Internal server error" });
+		return res.status(500).json({ auth: false, message: "Internal server error" });
 	}
 });
 
@@ -183,14 +190,11 @@ router.get("/pets/:id", isAuthenticated, async (req, res) => {
 });
 
 // Rota para adicionar um novo pet
-router.post(
-	"/pets",
-	isAuthenticated,
-	multer(uploadConfig).single("image"),
+router.post("/pets",isAuthenticated,multer(uploadConfig).single("image"),
 	async (req, res) => {
 		const { name, age, description, species } = req.body;
-		const userId = req.userId; 
-		const imagem = `./img/${req.file.filename}`;
+		const userId = req.userId;
+		const imagem = req.file ? `./img/profile/${req.file.filename}` : null;
 		console.log(req.body);
 		console.log(imagem);
 
@@ -202,7 +206,7 @@ router.post(
 				age,
 				description,
 				species,
-				user_id: userId, 
+				user_id: userId,
 			});
 
 			// Buscar o e-mail do usuário associado ao pet

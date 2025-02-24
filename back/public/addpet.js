@@ -23,11 +23,9 @@ form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     //recebendo todos os inputs do formulário
-    //isso é o que será enviado para o backend
     const formData = new FormData(form);
 
     //criando um objeto com o valor dos inputs
-    //para pode fazer validação deles
     const inputs = Object.fromEntries(formData.entries());
     console.log(inputs);
 
